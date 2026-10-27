@@ -1,0 +1,20 @@
+# Synthetic data generator. The timeline covers older history, the 180-day ranking window,
+# 17 validation days and 15 test days (8 test plus a 7-day locked holdout for ranking).
+seed: 42
+n_users: 800
+n_days: 330
+vehicles_per_day: 30.0
+n_brands: 12
+families_per_brand: 4
+user_daily_activity: 0.12
+bids_per_active_day: 2.5
+fav_share: 0.35
+alert_share: 0.08
+fav_only_per_active_day: 0.5
+purchase_rate: 0.7
+late_joiner_share: 0.25
+monthly_inflation: 0.01
+missing_rate: 0.02
+val_days: 17
+test_days: 15
+static_cutoff_days: 180   # must be >= the GNN window W (emb_cutoff_days)

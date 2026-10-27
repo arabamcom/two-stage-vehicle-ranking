@@ -1,0 +1,41 @@
+# Stage 1: heterogeneous GNN (manuscript Table 5).
+graph:
+  weight_bid: 3.0
+  weight_purchase: 10.0
+  weight_fav: 2.0
+  weight_alert: 1.0
+  bid_count_amplification: 0.2
+  reverse_relations: [BID, PURCHASE, FAVORITE, ALERT, HAS_PROPERTY]
+  mp_rel_weights:    # a reverse relation uses its base relation's value
+    BID: 1.0
+    PURCHASE: 1.0
+    FAVORITE: 1.0
+    ALERT: 1.0
+    HAS_PROPERTY: 0.8
+  price_quantiles: [0.20, 0.40, 0.60, 0.80]
+  age_cuts_years: [3, 6, 10]
+
+model:
+  hidden_channels: 256
+  out_channels: 128
+  num_layers: 2
+  dropout: 0.30
+  prop_embedding_dim: 32
+  residual: true
+  temperature: 0.15
+
+training:
+  device: auto
+  num_epochs: 200
+  learning_rate: 0.002
+  weight_decay: 0.00001
+  batch_size: 1024
+  num_neighbors: [25, 20]
+  patience: 10
+  min_delta: 0.0
+  eval_neg_ratio: 3.0
+  supervision_ratio: 0.3   # share of vehicles with training bids that become targets per epoch
+  emb_cutoff_days: 180     # W: the GNN is trained on data up to T_emb = T_train - W days
+  val_days: 17
+  test_days: 15
+  seed: 42

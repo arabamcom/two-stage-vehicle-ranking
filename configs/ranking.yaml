@@ -1,0 +1,44 @@
+# Stage 2: LambdaRank training data, model and evaluation (manuscript Table 6).
+dataset:
+  max_pos_per_user: 150
+  neg_per_pos: 4
+  in_day_min_pool_size: 20
+  hard_neg_ratio: 0.0
+  recency_half_life_days: 180
+  holdout_days: 7
+  max_test_pool_positives: 5000
+  max_holdout_pool_positives: 0
+  pool_eval_min_size: 5
+  seed: 42
+  label_map: {alert: 1, fav: 2, bid: 5, purchase: 6}
+
+training:
+  num_boost_round: 5000
+  early_stopping: 50
+  query_group: user_day
+  max_query_rows: 9000
+  seed: 42
+  lgb_params:
+    objective: lambdarank
+    metric: ndcg
+    eval_at: [10, 20, 50, 100, 200]
+    num_leaves: 31
+    learning_rate: 0.07
+    min_data_in_leaf: 700
+    feature_fraction: 0.6
+    bagging_fraction: 0.5
+    bagging_freq: 1
+    lambda_l1: 1.0
+    lambda_l2: 10.0
+    max_depth: 6
+    verbose: -1
+    seed: 42
+    deterministic: true
+    force_row_wise: true
+
+evaluation:
+  k: 10
+  n_resamples: 2000
+  seed: 42
+  popularity_window_days: 90
+  popularity_shrinkage: 0.0
